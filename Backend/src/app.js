@@ -22,6 +22,7 @@ app.use("/", authRouter);
 app.use("/profile", profileRouter);
 app.use("/", userRouter);
 app.use("/", requestRouter);
+app.use("/chat", chatRouter);
 
 
 const server = http.createServer(app);
