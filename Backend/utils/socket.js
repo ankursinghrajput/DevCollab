@@ -1,5 +1,6 @@
 const Socket = require("socket.io");
 const crypto = require("crypto");
+const { Chat } = require("../models/chat");
 
 const generateRoomId = (userId, targetUserId) => {
     return crypto.createHash("sha256").update([userId, targetUserId].sort().join("_")).digest("hex");
@@ -24,9 +25,10 @@ const initializeSocket = (server) => {
         });
 
         socket.on("sendMessage", async ({ firstname, message, userId, targetUserId }) => {
+            const roomId = generateRoomId(userId, targetUserId);
             //Save message to database here
             try {
-                const roomId = generateRoomId(userId, targetUserId);
+                
                 let chat = await Chat.findOne({ participants: { $all: [userId, targetUserId] } });
                 if (!chat) {
                     chat = new Chat({ participants: [userId, targetUserId], messages: [] });
@@ -34,11 +36,11 @@ const initializeSocket = (server) => {
                 const newMessage = { sender: userId, content: message, timestamp: new Date() };
                 chat.messages.push(newMessage);
                 await chat.save();
-                socket.to(roomId).emit("receiveMessage", { firstname, message, userId });
             }
             catch (err) {
                 console.error("Error saving message to database:", err);
             }
+            socket.to(roomId).emit("receiveMessage", { firstname, message, userId });
         });
 
         socket.on("typing", ({ userId, targetUserId }) => {

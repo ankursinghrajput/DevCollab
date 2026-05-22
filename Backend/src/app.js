@@ -8,6 +8,7 @@ const authRouter = require("../Routes/auth");
 const profileRouter = require("../Routes/profile");
 const userRouter = require("../Routes/user");
 const requestRouter = require("../Routes/request");
+const { chatRouter } = require("../Routes/chat");
 const http = require("http");
 
 const passport = require("../config/passport");
@@ -22,7 +23,7 @@ app.use("/", authRouter);
 app.use("/profile", profileRouter);
 app.use("/", userRouter);
 app.use("/", requestRouter);
-app.use("/chat", chatRouter);
+app.use("/", chatRouter);
 
 
 const server = http.createServer(app);
