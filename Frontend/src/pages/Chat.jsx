@@ -35,6 +35,36 @@ const Chat = () => {
     }
   }, [targetUserId]);
 
+  // ─── Load persisted chat history from the database ───────────────────────────
+  useEffect(() => {
+    if (!targetUserId) return;
+
+    const fetchChatHistory = async () => {
+      try {
+        const res = await axios.get(`/api/chat/${targetUserId}`, {
+          withCredentials: true,
+        });
+
+        const chatData = res.data;
+        if (chatData && chatData.messages) {
+          // Map the DB message format → the UI message shape
+          const history = chatData.messages.map((msg) => ({
+            id: msg._id,
+            text: msg.content,                 // DB field is "content"
+            senderId: msg.sender?._id || msg.sender,  // populated sender object or raw ObjectId
+            timestamp: msg.timestamp,
+          }));
+          setMessages(history);
+        }
+      } catch (err) {
+        console.error('Failed to load chat history', err);
+      }
+    };
+
+    fetchChatHistory();
+  }, [targetUserId]);
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ─── Socket connection for real-time messaging ───────────────────────────────
   useEffect(() => {
     if (!user || !targetUserId) return;
 
