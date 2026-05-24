@@ -34,13 +34,24 @@ initializeSocket(server);
 connectDb().then(() => {
     console.log("Database Connected");
     const PORT = process.env.PORT || 7000;
+
     server.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
+    });
+
+    server.on("error", (err) => {
+        if (err.code === "EADDRINUSE") {
+            console.error(`\n Port ${PORT} is already in use.`);
+            console.error(`   Run this command to free it, then save any file to restart:\n`);
+            console.error(`   netstat -ano | findstr :${PORT}   →  taskkill /PID <PID> /F\n`);
+            process.exit(1);
+        } else {
+            throw err;
+        }
     });
 }).catch((error) => {
     console.log(error);
 });
-
 
 
 

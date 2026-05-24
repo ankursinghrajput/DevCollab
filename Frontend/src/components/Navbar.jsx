@@ -12,6 +12,7 @@ const Navbar = () => {
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const [requestsDropdownOpen, setRequestsDropdownOpen] = useState(false);
   const [pendingRequests, setPendingRequests] = useState([]);
+  const [unreadChatCount, setUnreadChatCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -70,13 +71,30 @@ const Navbar = () => {
     }
   }, [user]);
 
+  // Fetch unread chat count (distinct senders)
+  const fetchUnreadChatCount = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await axios.get('/api/chat/unread-count', { withCredentials: true });
+      if (res?.data?.unreadPersonsCount !== undefined) {
+        setUnreadChatCount(res.data.unreadPersonsCount);
+      }
+    } catch (err) {
+      // Silently fail
+    }
+  }, [user]);
+
   useEffect(() => {
     if (user) {
       fetchPendingRequests();
-      const interval = setInterval(fetchPendingRequests, 30000);
+      fetchUnreadChatCount();
+      const interval = setInterval(() => {
+        fetchPendingRequests();
+        fetchUnreadChatCount();
+      }, 30000);
       return () => clearInterval(interval);
     }
-  }, [user, fetchPendingRequests]);
+  }, [user, fetchPendingRequests, fetchUnreadChatCount]);
 
   const handleReviewRequest = async (status, requestId) => {
     try {
@@ -254,6 +272,50 @@ const Navbar = () => {
           {!isLoginPage && user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               
+              {/* Chat Icon with Unread Badge */}
+              <Link
+                to="/connections"
+                id="chat-icon-btn"
+                title={unreadChatCount > 0 ? `${unreadChatCount} user${unreadChatCount > 1 ? 's have' : ' has'} messaged you` : 'Messages'}
+                style={{
+                  position: 'relative',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.35rem',
+                  color: 'var(--text-secondary)',
+                  padding: '0.35rem',
+                  borderRadius: 'var(--radius-md)',
+                  transition: 'all 0.2s ease',
+                  textDecoration: 'none',
+                }}
+              >
+                💬
+                {unreadChatCount > 0 && (
+                  <span style={{
+                    position: 'absolute',
+                    top: '-2px',
+                    right: '-4px',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    fontSize: '0.65rem',
+                    fontWeight: '700',
+                    minWidth: '18px',
+                    height: '18px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0 3px',
+                    border: '2px solid var(--bg-color)',
+                    animation: 'pulseNotif 2s ease-in-out infinite',
+                    lineHeight: 1,
+                  }}>
+                    {unreadChatCount > 9 ? '9+' : unreadChatCount}
+                  </span>
+                )}
+              </Link>
+
               {/* Connection Requests Bell Icon */}
               <div style={{ position: 'relative' }} ref={requestsDropdownRef}>
                 <button

@@ -218,6 +218,12 @@ button {
   50% { transform: scale(1.15); }
 }
 
+/* Chat icon nav button hover */
+#chat-icon-btn:hover {
+  color: var(--accent-primary) !important;
+  background-color: rgba(59, 130, 246, 0.08) !important;
+}
+
 /* Dropdown slide-in */
 @keyframes dropdownSlide {
   from { opacity: 0; transform: translateY(-8px); }
