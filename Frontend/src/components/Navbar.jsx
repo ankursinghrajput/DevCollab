@@ -536,7 +536,7 @@ const Navbar = () => {
                   </span>
                   <div style={{ 
                     width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', 
-                    backgroundColor: 'var(--accent-primary)', border: '2px solid white',
+                    backgroundColor: 'var(--accent-primary)', border: '2px solid var(--surface-color)',
                     boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)', flexShrink: 0
                   }}>
                     {user.photoUrl ? (

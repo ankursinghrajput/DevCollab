@@ -120,9 +120,9 @@ const Sidebar = () => {
 
       {user && (
         <Link to="/profile" style={{ marginTop: 'auto', textDecoration: 'none' }}>
-          <div style={{ padding: '1rem', borderTop: '1px solid rgba(255,255,255,0.5)', backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: 'var(--radius-md)', transition: 'background-color 0.2s' }}>
+          <div style={{ padding: '1rem', border: '1px solid var(--glass-border)', backgroundColor: 'var(--glass-bg)', borderRadius: 'var(--radius-md)', transition: 'background-color 0.2s' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ width: '45px', height: '45px', borderRadius: '50%', backgroundColor: 'var(--accent-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', overflow: 'hidden', flexShrink: 0, border: '2px solid white' }}>
+              <div style={{ width: '45px', height: '45px', borderRadius: '50%', backgroundColor: 'var(--accent-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', overflow: 'hidden', flexShrink: 0, border: '2px solid var(--surface-color)' }}>
                 {user.photoUrl ? (
                   <img src={user.photoUrl} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (

@@ -24,6 +24,34 @@
   --radius-full: 9999px;
   
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --glow-opacity: 0.15;
+  --social-bg: rgba(255, 255, 255, 0.03);
+  --social-bg-hover: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='light'] {
+  /* Minimalist Light Color Palette */
+  --bg-color: #f8fafc;
+  --surface-color: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --accent-primary: #3b82f6;
+  --accent-hover: #1d4ed8;
+  --border-color: #e2e8f0;
+  
+  /* Glassmorphism Theme (Light) */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+  --glass-border: rgba(15, 23, 42, 0.08);
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+
+  --glow-opacity: 0.06;
+  --social-bg: rgba(0, 0, 0, 0.02);
+  --social-bg-hover: rgba(0, 0, 0, 0.06);
 }
 
 /* Layout Utilities */
@@ -63,11 +91,11 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-color);
   background-image: 
-    radial-gradient(at 40% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(14, 165, 233, 0.15) 0px, transparent 50%);
+    radial-gradient(at 40% 20%, rgba(99, 102, 241, var(--glow-opacity)) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(236, 72, 153, var(--glow-opacity)) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(59, 130, 246, var(--glow-opacity)) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, rgba(139, 92, 246, var(--glow-opacity)) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(14, 165, 233, var(--glow-opacity)) 0px, transparent 50%);
   background-size: 200% 200%;
   animation: bg-pan 15s ease infinite alternate;
   color: var(--text-primary);
@@ -172,13 +200,13 @@ button {
   font-weight: 500;
   font-size: 0.875rem;
   transition: all 0.2s ease;
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: var(--social-bg);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
 }
 
 .btn-social:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: var(--social-bg-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
