@@ -10,6 +10,8 @@ const Navbar = () => {
   const isLoginPage = location.pathname === '/login' || location.pathname === '/signup';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isChatAnimating, setIsChatAnimating] = useState(false);
+  const [isNotifAnimating, setIsNotifAnimating] = useState(false);
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const [requestsDropdownOpen, setRequestsDropdownOpen] = useState(false);
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -122,6 +124,22 @@ const Navbar = () => {
     setIsAnimating(true);
     toggleTheme();
     setTimeout(() => setIsAnimating(false), 580);
+  };
+
+  const handleChatClick = () => {
+    if (isChatAnimating) return;
+    setIsChatAnimating(true);
+    setTimeout(() => setIsChatAnimating(false), 580);
+  };
+
+  const handleNotifClick = (e) => {
+    e.stopPropagation();
+    setRequestsDropdownOpen(prev => !prev);
+    setAvatarMenuOpen(false);
+
+    if (isNotifAnimating) return;
+    setIsNotifAnimating(true);
+    setTimeout(() => setIsNotifAnimating(false), 580);
   };
 
   // Close dropdowns when clicking outside
@@ -318,32 +336,29 @@ const Navbar = () => {
               <Link
                 to="/connections"
                 id="chat-icon-btn"
+                onClick={handleChatClick}
+                className="nav-icon-btn"
                 title={unreadChatCount > 0 ? `${unreadChatCount} user${unreadChatCount > 1 ? 's have' : ' has'} messaged you` : 'Messages'}
-                style={{
-                  position: 'relative',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.35rem',
-                  color: 'var(--text-secondary)',
-                  padding: '0.35rem',
-                  borderRadius: 'var(--radius-md)',
-                  transition: 'all 0.2s ease',
-                  textDecoration: 'none',
-                }}
+                style={{ position: 'relative', textDecoration: 'none' }}
               >
-                💬
+                <span className={`theme-icon${isChatAnimating ? ' theme-icon-spin' : ''}`}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" strokeWidth="2"
+                    strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </span>
                 {unreadChatCount > 0 && (
                   <span style={{
                     position: 'absolute',
-                    top: '-2px',
+                    top: '-4px',
                     right: '-4px',
                     backgroundColor: '#3b82f6',
                     color: 'white',
-                    fontSize: '0.65rem',
+                    fontSize: '0.6rem',
                     fontWeight: '700',
-                    minWidth: '18px',
-                    height: '18px',
+                    minWidth: '17px',
+                    height: '17px',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
@@ -362,36 +377,28 @@ const Navbar = () => {
               <div style={{ position: 'relative' }} ref={requestsDropdownRef}>
                 <button
                   id="requests-bell-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setRequestsDropdownOpen(prev => !prev);
-                    setAvatarMenuOpen(false);
-                  }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1.35rem',
-                    color: 'var(--text-secondary)',
-                    position: 'relative',
-                    padding: '0.35rem',
-                    borderRadius: 'var(--radius-md)',
-                    transition: 'all 0.2s ease',
-                    backgroundColor: requestsDropdownOpen ? 'rgba(99, 102, 241, 0.1)' : 'transparent'
-                  }}
+                  className={`nav-icon-btn${requestsDropdownOpen ? ' nav-icon-btn--active' : ''}`}
+                  onClick={handleNotifClick}
                 >
-                  🔔
+                  <span className={`theme-icon${isNotifAnimating ? ' theme-icon-spin' : ''}`}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" strokeWidth="2"
+                      strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </span>
                   {pendingRequests.length > 0 && (
                     <span style={{
                       position: 'absolute',
-                      top: '-2px',
+                      top: '-4px',
                       right: '-4px',
                       backgroundColor: '#ef4444',
                       color: 'white',
-                      fontSize: '0.65rem',
+                      fontSize: '0.6rem',
                       fontWeight: '700',
-                      width: '18px',
-                      height: '18px',
+                      width: '17px',
+                      height: '17px',
                       borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
