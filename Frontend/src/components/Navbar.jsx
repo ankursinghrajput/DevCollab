@@ -227,7 +227,7 @@ const Navbar = () => {
                   padding: '0.6rem 1rem 0.6rem 2.5rem',
                   borderRadius: 'var(--radius-full)',
                   border: '1px solid var(--border-color)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  backgroundColor: 'var(--surface-color)',
                   color: 'var(--text-primary)',
                   fontSize: '0.875rem',
                   outline: 'none',
