@@ -8,7 +8,7 @@ const FloatingCodes = () => {
     "router.post('/login', auth);",
     "display: flex; justify-content: center;",
     "docker-compose up -d",
-    "console.log('DevTinder loaded!');",
+    "console.log('DevCollab loaded!');",
     "try { await login() } catch (e) {}",
     "SELECT * FROM users WHERE skills='React'",
     "const [user, setUser] = useState(null);"

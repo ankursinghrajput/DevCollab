@@ -184,7 +184,7 @@ const Navbar = () => {
             letterSpacing: '-0.025em',
             textShadow: '0 2px 10px rgba(255,255,255,0.5)'
           }}>
-            DevTinder<span style={{ color: 'var(--accent-primary)' }}>.</span>
+            DevCollab<span style={{ color: 'var(--accent-primary)' }}>.</span>
           </Link>
 
           {/* Desktop Navigation Links */}

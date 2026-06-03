@@ -28,6 +28,9 @@ function App() {
             <Route path="/chat/:targetUserId" element={<Chat />} />
           </Routes>
         </main>
+        <footer style={{ textAlign: 'center', padding: '1.5rem', borderTop: '1px solid var(--border-color)', color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: 'auto' }}>
+          Made with <span style={{ color: '#ef4444' }}>❤️</span> by <strong>Ankur Singh</strong>
+        </footer>
       </div>
     </Router>
   );
